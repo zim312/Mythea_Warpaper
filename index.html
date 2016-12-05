@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="no-js"> 
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script>
+
+            function sendlog()
+            {
+                var logdata=$('#news').val();
+                var hours=$('#uniquehour').val();
+                $('#results').html('<img src="http://i.stack.imgur.com/FhHRx.gif" alt="Loading" />');
+                //alert(data);
+                $.ajax({
+                    url: "readlog_sql.php",
+                    type: "POST",
+                    data: {logdata: logdata,uniquehour:hours}
+                }).done(function(msg) {
+                    $('#results').html(msg);
+                    $('#war').val(msg);
+                    document.location = "warview.php?war="+msg;
+                });
+
+            }
+        </script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <table width="500px" class="solid">
+            <tr>
+                <td colspan="2">
+                    <div align="center">
+                        <strong>Mythea News Formatter</strong>
+                        <br />
+                        <textarea cols="50" rows="10" name="news" id="news"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div align="center">
+                        <input type="submit" onClick="sendlog()" value="Format News" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br/><br/>
+        <form action='warview.php' method='get'>
+            <label for='war'>War Id:</label>
+            <input type='text' name='war' id='war' size='20'><br/>
+            <button type='submit'>Show</button><br/>
+        </form><br/>
+        <div id="results">
+        </div>
+    </body>
+</html>
